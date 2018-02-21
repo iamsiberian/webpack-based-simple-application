@@ -27,10 +27,11 @@ class OperationExecutor {
    * @returns object that contains source object and his modified clone
    */
   firstTaskExecute(arg) {
-    const obj = arg.obj1;
-    let newObj = Object.assign({}, obj);
-    newObj.firstName = 'Alesha';
-    return {obj, newObj};
+    let trueObj1 = arg.obj1;
+    let cloneObj1 = Object.assign({}, trueObj1);
+    cloneObj1.firstName = 'Alesha';
+    cloneObj1.lastName = 'Popov';
+    return {trueObj1, cloneObj1};
   }
 
   /**
@@ -53,7 +54,9 @@ class OperationExecutor {
    * @returns object that contains modified source object
    */
   thirdTaskExecute(arg) {
-    arg.obj1.relatives.map(x=>x['gender']='');
+    arg.obj1.relatives.forEach(
+    relative => {relative['gender'] = ''}
+    );
     return arg;
   }
 
@@ -64,8 +67,13 @@ class OperationExecutor {
    * @returns object that contains array of string with female relatives
    */
   fourthTaskExecute(arg) {
+  /*
   let females = arg.obj1.relatives.filter(relative => relative.gender === "female");
   return females.map(female => `Privet ${female.firstName}`);
+  */
+  return arg.obj1.relatives.reduce((previousValue, currentItem) => {
+    return currentItem.gender === "female" ? [...previousValue, `Privet ${currentItem.firstName}`] : [...previousValue];
+  }, []);
   }
 }
 
